@@ -17,7 +17,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: nginx-pv-claim
 spec:
-  storageClassName: manual
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:
