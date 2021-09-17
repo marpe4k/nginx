@@ -1,14 +1,16 @@
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nginx-pv-volume
-spec:
-  storageClassName: longhorn
-  capacity:
-    storage: 3Gi
-  accessModes:
-    - ReadWriteOnce
+#---
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: nginx-pv-volume
+#  labels:
+#    type: local
+#spec:
+#  storageClassName: longhorn
+#  capacity:
+#    storage: 3Gi
+#  accessModes:
+#    - ReadWriteOnce
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -25,23 +27,25 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: nginx-vol
   # namespace: test
 spec:
   selector:
     matchLabels:
-      app: nginx
+      app: nginx-vol
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
-        app: nginx
+        app: nginx-vol
     spec:
       volumes:
       - name: nginx-pv-storage
         persistentVolumeClaim:
           claimName: nginx-pv-claim
       containers:
-      - name: nginx
+      - name: nginx-vol
         image: nginx:1.19.1
         resources:
           limits:
@@ -56,7 +60,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: nginx-vol
   # namespace: test
 spec:
   ports:
@@ -65,6 +69,6 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: nginx
+    app: nginx-vol
   type: ClusterIP
 
