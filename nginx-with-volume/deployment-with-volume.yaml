@@ -46,7 +46,7 @@ spec:
           claimName: nginx-pv-claim
       containers:
       - name: nginx-vol
-        image: nginx:1.19.3
+        image: nginx:1.19.4
         resources:
           limits:
             memory: "256Mi"
