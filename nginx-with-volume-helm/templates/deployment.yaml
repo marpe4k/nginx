@@ -20,7 +20,7 @@ spec:
         persistentVolumeClaim:
           claimName: {{ .Values.name }}-pvc-{{ Release.Namespace }}
       containers:
-      - name: nginx-vol
+      - name: {{ .Values.name }}
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         resources:
           limits:
