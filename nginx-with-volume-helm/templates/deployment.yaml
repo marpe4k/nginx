@@ -18,7 +18,7 @@ spec:
       volumes:
       - name: {{ .Values.name }}-volume
         persistentVolumeClaim:
-          claimName: {{ .Values.name }}-pvc-dev
+          claimName: {{ .Values.name }}-pvc-{{ .Release.Namespace}}
       containers:
       - name: {{ .Values.name }}
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
